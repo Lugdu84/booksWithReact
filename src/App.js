@@ -1,25 +1,19 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Component, Fragment } from "react";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import TitreH1 from "./components/Titres/titre";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component{
+  render(){
+    return (
+      <Fragment>
+        <div className="container">
+          <TitreH1>Page listant les livres</TitreH1>
+          <div>Livres</div>
+          <button className="btn btn-success">Ajouter</button>
+        </div>
+      </Fragment>
+    );
+  }
 }
 
 export default App;

@@ -2,6 +2,7 @@ import React, { Component, Fragment } from "react";
 import FormulaireAJout from "./FormulaireAjout/FormulaireAjout";
 import FormulaireModification from "./FormulaireModification/FormulaireModification";
 import Livre from "./Livre/Livre";
+import Alert from "../../components/Alert/Alert";
 
 class Livres extends Component{
 
@@ -33,7 +34,8 @@ class Livres extends Component{
       }
     ],
     lastIdLivre: 4,
-    idLivreAModifier: 0
+    idLivreAModifier: 0,
+    alertMessage: null
   }
 
   supprimerLivreHandler = (id) => {
@@ -43,7 +45,13 @@ class Livres extends Component{
     });
     const newLivres = [...this.state.livres];
     newLivres.splice(index, 1);
-    this.setState({livres:newLivres});
+    this.setState({
+      livres:newLivres,
+      alertMessage: {
+        message: "Suppression effectuée",
+        type: "danger"
+      }
+    });
   }
 
   AjouterLivreHandler = (titre, auteur, nbPages) => {
@@ -59,7 +67,11 @@ class Livres extends Component{
     this.setState(oldState => {
       return {
         livres: newLivres,
-        lastIdLivre: oldState.lastIdLivre + 1
+        lastIdLivre: oldState.lastIdLivre + 1,
+        alertMessage:{
+          message: "Ajout effectué",
+          type: "info"
+        }
       }
     });
     this.props.fermerAjoutLivre();
@@ -80,7 +92,11 @@ class Livres extends Component{
     newLivres[index] = newLivre;
     this.setState({
       livres: newLivres,
-      idLivreAModifier: 0
+      idLivreAModifier: 0,
+      alertMessage: {
+        message: "Modification effectuée",
+        type: "success"
+      }
     })
   }
 
@@ -91,6 +107,7 @@ class Livres extends Component{
   render(){
     return (
       <Fragment>
+      {this.state.alertMessage && <Alert typeAlert = {this.state.alertMessage.type}>{this.state.alertMessage.message}</Alert>}
         <table className="table text-center">
           <thead>
             <tr className="table-dark">

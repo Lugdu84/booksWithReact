@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from "react";
 import FormulaireAJout from "./FormulaireAjout/FormulaireAjout";
+import FormulaireModification from "./FormulaireModification/FormulaireModification";
 import Livre from "./Livre/Livre";
 
 class Livres extends Component{
@@ -10,28 +11,29 @@ class Livres extends Component{
         id: 1,
         titre: "L'algorithmique selon H2PROG",
         auteur: "Mathieu GASTON",
-        pages: 200
+        nbPages: 200
       },
       {
         id: 2,
         titre: "La France au 19ème",
         auteur: "Albert Patrick",
-        pages: 500
+        nbPages: 500
       },
       {
         id: 3,
         titre: "Le monde des animaux",
         auteur: "Marc MERLIN",
-        pages: 250
+        nbPages: 250
       },
       {
         id: 4,
         titre: "Le Virus d'asie",
         auteur: "Tya MILO",
-        pages: 120
+        nbPages: 120
       }
     ],
-    lastIdLivre: 4
+    lastIdLivre: 4,
+    idLivreAModifier: 0
   }
 
   supprimerLivreHandler = (id) => {
@@ -45,14 +47,11 @@ class Livres extends Component{
   }
 
   AjouterLivreHandler = (titre, auteur, nbPages) => {
-    console.log(titre);
-    console.log(auteur);
-    console.log(nbPages);
     const newLivre = {
       id: this.state.lastIdLivre + 1,
-      titre: titre,
-      auteur: auteur,
-      pages: nbPages
+      titre,
+      auteur,
+      nbPages
     }
     const newLivres = [...this.state.livres];
     newLivres.push(newLivre);
@@ -64,6 +63,25 @@ class Livres extends Component{
       }
     });
     this.props.fermerAjoutLivre();
+  }
+
+  ModifiationLivreHandler = (id, titre, auteur, nbPages) => {
+    const index = this.state.livres.findIndex(livre => {
+      return livre.id === id;
+    })
+
+    const newLivre = {
+      id,
+      titre,
+      auteur,
+      nbPages
+    }
+    const newLivres = [...this.state.livres];
+    newLivres[index] = newLivre;
+    this.setState({
+      livres: newLivres,
+      idLivreAModifier: 0
+    })
   }
 
   render(){
@@ -81,15 +99,31 @@ class Livres extends Component{
           <tbody>
           {
             this.state.livres.map(livre => {
-              return (
-                <Livre key={livre.id}
-                titre={livre.titre}
-                auteur={livre.auteur}
-                pages={livre.pages}
-                modifier={() => console.log(`modifier ${livre.id}`)}
-                supprimer={() => this.supprimerLivreHandler(livre.id)}/>
+              if (livre.id !== this.state.idLivreAModifier) {
+                return (
+                  <tr key={livre.id}>
+                    <Livre key={livre.id}
+                      titre={livre.titre}
+                      auteur={livre.auteur}
+                      pages={livre.nbPages}
+                      modifier={() => this.setState({ idLivreAModifier: livre.id })}
+                      supprimer={() => this.supprimerLivreHandler(livre.id)} />
+                  </tr>
+                );
+              } else {
+                return (
+                  <tr key={livre.id}>
+                    <FormulaireModification
+                      id = {livre.id}
+                      titre={livre.titre}
+                      auteur={livre.auteur}
+                      nbPages={livre.nbPages}
+                      validationModification={this.ModifiationLivreHandler}
+                      />
+                  </tr>
+                );
+              }
 
-              );
             })
           }
           </tbody>

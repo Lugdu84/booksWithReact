@@ -47,7 +47,7 @@ class Livres extends Component{
     newLivres.splice(index, 1);
     this.setState({
       livres:newLivres,
-      alertMessage: {
+      alert: {
         message: "Suppression effectuée",
         type: "danger"
       }
@@ -68,7 +68,7 @@ class Livres extends Component{
       return {
         livres: newLivres,
         lastIdLivre: oldState.lastIdLivre + 1,
-        alertMessage:{
+        alert:{
           message: "Ajout effectué",
           type: "info"
         }
@@ -93,7 +93,7 @@ class Livres extends Component{
     this.setState({
       livres: newLivres,
       idLivreAModifier: 0,
-      alertMessage: {
+      alert: {
         message: "Modification effectuée",
         type: "success"
       }
@@ -107,7 +107,7 @@ class Livres extends Component{
   render(){
     return (
       <Fragment>
-      {this.state.alertMessage && <Alert typeAlert = {this.state.alertMessage.type}>{this.state.alertMessage.message}</Alert>}
+      {this.state.alert && <Alert typeAlert = {this.state.alert.type}>{this.state.alert.message}</Alert>}
         <table className="table text-center">
           <thead>
             <tr className="table-dark">

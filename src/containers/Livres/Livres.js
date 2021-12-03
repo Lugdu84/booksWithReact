@@ -84,6 +84,10 @@ class Livres extends Component{
     })
   }
 
+  annulationModificationHandler = () => {
+    this.setState({ idLivreAModifier: 0});
+  }
+
   render(){
     return (
       <Fragment>
@@ -119,6 +123,7 @@ class Livres extends Component{
                       auteur={livre.auteur}
                       nbPages={livre.nbPages}
                       validationModification={this.ModifiationLivreHandler}
+                      annulationModification={this.annulationModificationHandler}
                       />
                   </tr>
                 );

@@ -15,6 +15,10 @@ class FormulaireModification extends Component{
     this.props.validationModification(this.props.id, this.state.titreSaisi, this.state.auteurSaisi, this.state.nbPagesSaisi);
   }
 
+  handleAnnulation = () => {
+    this.props.annulationModification();
+  }
+
   render(){
     return (
       <Fragment>
@@ -45,6 +49,9 @@ class FormulaireModification extends Component{
         </td>
         <td>
           <Bouton typeBtn="btn-primary" click={this.handleValidation}>Valider</Bouton>
+        </td>
+        <td>
+          <Bouton typeBtn="btn-warning" click={this.handleAnnulation}>Annuler</Bouton>
         </td>
       </Fragment>
     );

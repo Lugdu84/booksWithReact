@@ -112,6 +112,7 @@ class Livres extends Component{
     return (
       <Fragment>
       {this.state.alert && <Alert typeAlert = {this.state.alert.type}>{this.state.alert.message}</Alert>}
+
         <table className="table text-center">
           <thead>
             <tr className="table-dark">

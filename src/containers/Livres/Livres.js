@@ -40,9 +40,7 @@ class Livres extends Component{
 
   supprimerLivreHandler = (id) => {
 
-    const index = this.state.livres.findIndex(livre => {
-      return livre.id === id;
-    });
+    const index = this.findIndexLivres(id);
     const newLivres = [...this.state.livres];
     newLivres.splice(index, 1);
     this.setState({
@@ -77,10 +75,16 @@ class Livres extends Component{
     this.props.fermerAjoutLivre();
   }
 
-  ModifiationLivreHandler = (id, titre, auteur, nbPages) => {
+  findIndexLivres = (id) => {
     const index = this.state.livres.findIndex(livre => {
       return livre.id === id;
     })
+    return index;
+  }
+
+  ModifiationLivreHandler = (id, titre, auteur, nbPages) => {
+
+    const index = this.findIndexLivres(id);
 
     const newLivre = {
       id,

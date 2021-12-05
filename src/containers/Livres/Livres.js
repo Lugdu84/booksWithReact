@@ -75,6 +75,8 @@ class Livres extends Component{
     this.props.fermerAjoutLivre();
   }
 
+
+
   findIndexLivres = (id) => {
     const index = this.state.livres.findIndex(livre => {
       return livre.id === id;
@@ -112,7 +114,6 @@ class Livres extends Component{
     return (
       <Fragment>
       {this.state.alert && <Alert typeAlert = {this.state.alert.type}>{this.state.alert.message}</Alert>}
-
         <table className="table text-center">
           <thead>
             <tr className="table-dark">

@@ -3,6 +3,7 @@ import TitreH2 from "../../../components/Titres/TitreH2";
 import Form from "react-bootstrap/Form"
 import Bouton from "../../../components/Bouton/Bouton";
 import {withFormik} from "formik";
+import * as Yup from "yup";
 
 class FormulaireAJout extends Component{
   // state = {
@@ -86,25 +87,40 @@ export default withFormik({
     auteur: '',
     nbPages: '',
   }),
-  validate: values => {
-    const errors = {};
-    if (values.titre.length < 3) {
-      errors.titre = "Le titre doit avoir plus de 3 caractères";
-    }
-    if (values.titre.length > 15) {
-      errors.titre = "Le titre doit avoir moins de 15 caractères";
-    }
-    if (!values.titre) {
-      errors.titre = "Le champ titre est obligatoire"
-    }
-    if (!values.auteur){
-      errors.auteur = "Le champ auteur est obligatoire"
-    }
-    if (!values.nbPages){
-      errors.nbPages = "Le champ nombre de pages est obligatoire"
-    }
-    return errors;
-  },
+  // validate: values => {
+  //   const errors = {};
+  //   if (values.titre.length < 3) {
+  //     errors.titre = "Le titre doit avoir plus de 3 caractères";
+  //   }
+  //   if (values.titre.length > 15) {
+  //     errors.titre = "Le titre doit avoir moins de 15 caractères";
+  //   }
+  //   if (!values.titre) {
+  //     errors.titre = "Le champ titre est obligatoire"
+  //   }
+  //   if (!values.auteur){
+  //     errors.auteur = "Le champ auteur est obligatoire"
+  //   }
+  //   if (!values.nbPages){
+  //     errors.nbPages = "Le champ nombre de pages est obligatoire"
+  //   }
+  //   return errors;
+  // }, module yup à la place avec validation schema
+
+  validationSchema : Yup.object().shape({
+    titre: Yup.string()
+      .min(3, "Le titre d'un doit avoir plus de 3 caractères")
+      .max(30, "Le titre d'un livre doit avoir moins de 15 caractères")
+      .required('Un livre doit avoir un titre'),
+    auteur: Yup.string()
+      .required("Un livre doit avoir un auteur")
+      .min(3, "L'auteur d'un livre doit avoir plus de 3 caractères"),
+    nbPages: Yup.number()
+      .required("Le nombre de pages d'un livre est obligatoire")
+      .min(40, 'Un livre doit avoir au moins 40 pages')
+      .lessThan(1000, "Un livre doit avoir moins de 1000 pages")
+  }),
+
   handleSubmit: (values, {props}) => {
     props.validation(values.titre, values.auteur, values.nbPages);
   }
